@@ -1,21 +1,14 @@
 # flutter_cubit
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 - [login error](https://github.com/mohamadsafik/flutter_cubit/blob/master/assets/screenshoot/Screenshot_1698828481.png)
 - [login success](https://github.com/mohamadsafik/flutter_cubit/blob/master/assets/screenshoot/Screenshot_1698828506.png)
 - [Home](https://github.com/mohamadsafik/flutter_cubit/blob/master/assets/screenshoot/Screenshot_1698828520.png)
 - [list articles](https://github.com/mohamadsafik/flutter_cubit/blob/master/assets/screenshoot/Screenshot_1698828532.png)
 - [single articles](https://github.com/mohamadsafik/flutter_cubit/blob/master/assets/screenshoot/Screenshot_1698828566.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+penggunaan
+   - pertama login dengan email dan password yang valid contoh (safikmohamad14@gmail.com/@Safik123)
+   - data login di simpan di local storage dan ditampilkan dihalaman home
+   - menampilkan article di homepage di limit yang nampil 4, jika klik see all bisa lihat semua
+   - page list article bisa lihat semua article dan saya pake pagination karena di api saya menemukan kalo ada parameter page, jadi saya buat load more data di list
+   - single article dari list yang di klik akan masuk ke detail dan data dari list dikirim ke detail lalu ditampilkan semua
