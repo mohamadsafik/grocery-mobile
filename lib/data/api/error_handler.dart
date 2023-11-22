@@ -5,6 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter_cubit/data/api/network_exceptions.dart';
 import 'package:flutter_cubit/data/api/response.dart';
 
+///
+/// Created by alfianhpratama on 08/11/22
+///
+
 class ErrorHandler {
   static BaseResponse getDioException(error) {
     int status = 405;
@@ -26,7 +30,7 @@ class ErrorHandler {
               status = error.response?.statusCode ?? 405;
               switch (error.response?.statusCode) {
                 case 400:
-                  networkExceptions = const NetworkExceptions.badRequest();
+                  networkExceptions =  NetworkExceptions.defaultError(error.response!.data["message"]);
                   break;
                 case 401:
                   networkExceptions =
@@ -75,26 +79,31 @@ class ErrorHandler {
           networkExceptions = const NetworkExceptions.unexpectedError();
         }
         return BaseResponse(
-          status: status.toString(),
-        );
+            status: status, message: getErrorMessage(networkExceptions));
       } on FormatException {
         return BaseResponse(
-          status: status.toString(),
+          status: status,
+          message: getErrorMessage(const NetworkExceptions.formatException()),
         );
       } catch (_) {
         return BaseResponse(
-          status: status.toString(),
+          status: status,
+          message: getErrorMessage(const NetworkExceptions.unexpectedError()),
         );
       }
     } else {
       log(error.toString());
       if (error.toString().contains("is not a subtype of")) {
         return BaseResponse(
-          status: status.toString(),
+          status: status,
+          message: getErrorMessage(const NetworkExceptions.unableToProcess()),
         );
       } else {
         return BaseResponse(
-          status: status.toString(),
+          status: status,
+          message: getErrorMessage(
+            NetworkExceptions.defaultError(error.toString()),
+          ),
         );
       }
     }

@@ -26,7 +26,7 @@ class SplashCubit extends Cubit<String> {
       });
     } else {
       Future.delayed(const Duration(seconds: 1), () {
-        context.go(RouteNames.home);
+        context.go(RouteNames.catalog);
       });
     }
   }

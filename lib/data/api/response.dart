@@ -6,11 +6,12 @@ part 'response.g.dart';
 
 @JsonSerializable()
 class BaseResponse {
-  final String status;
+  final int status;
+  final String message;
 
   bool get isSuccess => status == APIResult.success;
 
-  BaseResponse({required this.status});
+  BaseResponse({required this.status, required this.message});
 
   factory BaseResponse.fromJson(Map<String, dynamic> json) =>
       _$BaseResponseFromJson(json);
@@ -21,12 +22,13 @@ class BaseResponse {
 @JsonSerializable()
 class ApiResponse<T> extends BaseResponse {
   @Converter()
-  final T? articles;
+  final T? data;
 
   ApiResponse({
-    required String status,
-    this.articles,
-  }) : super(status: status);
+    required int status,
+    required String message,
+    this.data,
+  }) : super(status: status, message: message);
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) =>
       _$ApiResponseFromJson(json);
@@ -35,22 +37,26 @@ class ApiResponse<T> extends BaseResponse {
   Map<String, dynamic> toJson() => _$ApiResponseToJson(this);
 
   factory ApiResponse.onError(BaseResponse error) =>
-      ApiResponse(status: error.status);
+      ApiResponse(status: error.status, message: error.message);
 }
 
 @JsonSerializable()
 class ApiResponseList<T> extends BaseResponse {
   @Converter()
-  final List<T> articles;
+  final List<T> data;
 
-  @JsonKey(name: 'totalResults')
+  @JsonKey(name: 'total_data')
   final int totalData;
+  @JsonKey(name: 'total_page')
+  final int totalPage;
 
-  ApiResponseList({
-    required String status,
-    this.articles = const [],
-    this.totalData = 8,
-  }) : super(status: status);
+  ApiResponseList(
+      {required int status,
+      required String message,
+      this.data = const [],
+      this.totalData = 10,
+      this.totalPage = 1})
+      : super(status: status, message: message);
 
   factory ApiResponseList.fromJson(Map<String, dynamic> json) =>
       _$ApiResponseListFromJson(json);
@@ -59,5 +65,5 @@ class ApiResponseList<T> extends BaseResponse {
   Map<String, dynamic> toJson() => _$ApiResponseListToJson(this);
 
   factory ApiResponseList.onError(BaseResponse error) =>
-      ApiResponseList(status: error.status);
+      ApiResponseList(status: error.status, message: error.message);
 }

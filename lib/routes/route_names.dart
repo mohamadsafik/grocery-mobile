@@ -4,9 +4,10 @@ class RouteNames {
   RouteNames._();
 
   static const String root = "/";
-  static const String login = "/login";
   static const String splash = "/splash";
-  static const String home = "/home";
-  static const String listArticle = "/list-article";
-  static const String singleArticle = "/single-article";
+  static const String register = "/register";
+  static const String login = "/login";
+  static const String catalog = "/catalog";
+  static const String singleCatalog = "/single_catalog";
+  static const String cart = "/cart";
 }

@@ -1,40 +1,41 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cubit/data/models/base/article.dart';
-import 'package:flutter_cubit/data/services.dart';
+import 'package:flutter_cubit/data/models/base/catalog.dart';
 import 'package:flutter_cubit/engine/engine.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../data/models/base/user.dart';
+import '../../../data/api/services.dart';
 
-part 'home_state.dart';
-part 'home_cubit.freezed.dart';
+part 'catalog_state.dart';
+part 'catalog_cubit.freezed.dart';
 
-class HomeCubit extends BaseCubit<HomeState> {
-  HomeCubit(BuildContext context) : super(context, HomeState());
+class CatalogCubit extends BaseCubit<CatalogState> {
+  final TextEditingController searchTerm = TextEditingController();
+  CatalogCubit(BuildContext context) : super(context, CatalogState());
 
   @override
-  Future<void> initData({int page = 1}) async {
+  Future<void> initData({int page = 1, String search = ""}) async {
     loadingState();
-    getData();
+    getData(search: search);
   }
 
-  Future<void> getData({int page = 1, bool force = false}) async {
+  Future<void> getData(
+      {int page = 1, bool force = false, String search = ""}) async {
     loadingState(force: force);
 
-    List<Article> dataList = state.data;
-    User user = Sessions.getUser();
-    final response = await ApiService.infoMedicalCheckup(context, page: page);
-    if (response.status == "ok") {
+    List<Catalog> dataList = state.data;
+    final response =
+        await ApiService.catalog(context, page: page, search: search);
+    if (response.isSuccess) {
       if (page == 1) dataList = [];
-      dataList = dataList + response.articles!;
+      dataList = dataList + response.data;
       DataStateStatus status = DataStateStatus.success;
       if (dataList.isEmpty) status = DataStateStatus.empty;
 
       emit(state.copyWith(
-        user: user,
         status: status,
         data: dataList,
-        canLoadMore: dataList.length < response.totalResults!,
+        canLoadMore: page < response.totalPage,
         page: page,
       ));
     } else {
@@ -73,4 +74,6 @@ class HomeCubit extends BaseCubit<HomeState> {
 
   @override
   Future<void> refreshData() => initData();
+
+  Future<void> searctProduct(String search) => initData(search: search);
 }

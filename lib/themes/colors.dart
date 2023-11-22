@@ -24,7 +24,7 @@ class AppColorData {
     this.gradient = const [Colors.blueAccent, Colors.blueGrey],
     this.error = Colors.red,
     this.warning = Colors.orange,
-    this.background = const Color(0xFFFDFDFD),
+    this.background =const Color.fromARGB(255, 255, 254, 251),
     this.bottomNavigation = const Color(0xFFFEFEFE),
     this.active = Colors.blue,
     this.success = Colors.green,

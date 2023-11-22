@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_cubit/data/models/base/article.dart';
-import 'package:flutter_cubit/modules/article/view/list_articles.dart';
 import 'package:flutter_cubit/modules/auth/login/cubit/login_cubit.dart';
 import 'package:flutter_cubit/modules/auth/login/views/login.dart';
-import 'package:flutter_cubit/modules/home/views/home.dart';
+import 'package:flutter_cubit/modules/auth/register/cubit/register_cubit.dart';
+import 'package:flutter_cubit/modules/auth/register/views/register.dart';
+import 'package:flutter_cubit/modules/cart/cubit/cart_cubit.dart';
+import 'package:flutter_cubit/modules/cart/views/cart.dart';
+import 'package:flutter_cubit/modules/catalog/cubit/catalog_cubit.dart';
+import 'package:flutter_cubit/modules/catalog/cubit/single_catalog_cubit.dart';
+import 'package:flutter_cubit/modules/catalog/views/catalog.dart';
+import 'package:flutter_cubit/modules/catalog/views/single_catalog.dart';
 import 'package:flutter_cubit/widgets/components/unknown_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_cubit/widgets/widgets.dart';
-
-import '../modules/article/view/single_article.dart';
-import '../modules/home/cubit/home_cubit.dart';
 import '../modules/splash/cubit/splash_cubit.dart';
 import '../modules/splash/views/splash_page.dart';
 
@@ -30,6 +32,16 @@ class Routes implements RouterInterface {
         },
       ),
       GoRoute(
+        name: RouteNames.register,
+        path: RouteNames.register,
+        builder: (ctx, GoRouterState state) {
+          return BlocProvider(
+            create: (ctx) => RegisterCubit(ctx),
+            child: const RegisterPage(),
+          );
+        },
+      ),
+      GoRoute(
         name: RouteNames.login,
         path: RouteNames.login,
         builder: (ctx, GoRouterState state) {
@@ -40,30 +52,45 @@ class Routes implements RouterInterface {
         },
       ),
       GoRoute(
-        name: RouteNames.home,
-        path: RouteNames.home,
+        name: RouteNames.catalog,
+        path: RouteNames.catalog,
         builder: (ctx, GoRouterState state) {
-          return BlocProvider(
-            create: (ctx) => HomeCubit(ctx),
-            child: const HomePage(),
+          return MultiBlocProvider(providers: [
+            BlocProvider(
+              create: (context) => CatalogCubit(context),
+            ),
+            BlocProvider(
+              create: (context) => CartCubit(context),
+            ),
+          ], child: const CatalogPage());
+        },
+      ),
+      GoRoute(
+        name: RouteNames.singleCatalog,
+        path: RouteNames.singleCatalog,
+        builder: (ctx, GoRouterState state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => CartCubit(context),
+              ),
+              BlocProvider(
+                create: (context) => SingleCatalogCubit(
+                    context, int.parse(state.extra.toString())),
+              ),
+            ],
+            child: SingleCatalogpage(),
           );
         },
       ),
       GoRoute(
-        name: RouteNames.listArticle,
-        path: RouteNames.listArticle,
+        name: RouteNames.cart,
+        path: RouteNames.cart,
         builder: (ctx, GoRouterState state) {
           return BlocProvider(
-            create: (ctx) => HomeCubit(ctx),
-            child: const ListArticlePage(),
+            create: (context) => CartCubit(context),
+            child: CartPage(),
           );
-        },
-      ),
-      GoRoute(
-        name: RouteNames.singleArticle,
-        path: RouteNames.singleArticle,
-        builder: (ctx, GoRouterState state) {
-          return SingleArticle(article: state.extra as Article);
         },
       ),
     ],

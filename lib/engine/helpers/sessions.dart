@@ -27,4 +27,10 @@ abstract class Sessions {
     User user = User.fromJson(jsonDecode(data!));
     return user;
   }
+
+  static int getUserId() {
+    String? data = Sessions.getUserData();
+    User user = User.fromJson(jsonDecode(data!));
+    return user.id!;
+  }
 }

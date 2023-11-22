@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cubit/engine/helpers/form_validation.dart';
 import 'package:flutter_cubit/modules/auth/login/cubit/login_cubit.dart';
+import 'package:flutter_cubit/routes/routes.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../engine/base/app.dart';
 import '../../../../themes/themes.dart';
@@ -29,12 +31,12 @@ class LoginPage extends StatelessWidget {
                   children: [
                     const SizedBox(height: 123),
                     Text(
-                      "Login",
+                      "Login App",
                       style: AppFont.largeBold(context)!.copyWith(fontSize: 20),
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      "Please use the account you have to login at elKopra app",
+                      "Please use the account you have to login at this app",
                       style: AppFont.medium(context)!.copyWith(fontSize: 14),
                     ),
                     const SizedBox(height: 50),
@@ -84,35 +86,7 @@ class LoginPage extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: 30),
-                    SizedBox(
-                      height: 40,
-                      width: baseWidth,
-                      child: Stack(children: [
-                        Positioned(
-                            left: -15,
-                            child: Row(
-                              children: [
-                                Checkbox(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(4)),
-                                    side: BorderSide(width: 0.5),
-                                    value: false,
-                                    onChanged: (val) {}),
-                                Text("Remember me",
-                                    style: AppFont.medium(context)!
-                                        .copyWith(fontSize: 14))
-                              ],
-                            )),
-                        Positioned(
-                            right: 0,
-                            bottom: 10,
-                            child: Text("Forgot Password ?",
-                                style: AppFont.medium(context)!.copyWith(
-                                    fontSize: 14,
-                                    color: Theme.of(context).primaryColor))),
-                      ]),
-                    ),
-                    SizedBox(height: 30),
+                   
                     SizedBox(
                       height: 42,
                       child: ElevatedButton(
@@ -140,7 +114,9 @@ class LoginPage extends StatelessWidget {
                           style: AppFont.medium(context),
                         ),
                         CustomButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.pushNamed(RouteNames.register);
+                          },
                           child: Text(
                             "Click Here",
                             style: AppFont.mediumPrimary(context),

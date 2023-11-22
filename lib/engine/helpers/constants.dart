@@ -1,5 +1,5 @@
 abstract class APIResult {
-  static const String success = "ok";
+  static const int success = 200;
   static const int failed = 404;
   static const int invalid = 401;
 }

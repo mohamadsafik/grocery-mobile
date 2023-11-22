@@ -7,26 +7,30 @@ part of 'response.dart';
 // **************************************************************************
 
 BaseResponse _$BaseResponseFromJson(Map<String, dynamic> json) => BaseResponse(
-      status: json['status'] as String,
+      status: json['status'] as int,
+      message: json['message'] as String,
     );
 
 Map<String, dynamic> _$BaseResponseToJson(BaseResponse instance) =>
     <String, dynamic>{
       'status': instance.status,
+      'message': instance.message,
     };
 
 ApiResponse<T> _$ApiResponseFromJson<T>(Map<String, dynamic> json) =>
     ApiResponse<T>(
-      status: json['status'] as String,
-      articles: _$JsonConverterFromJson<Object, T>(
-          json['articles'], Converter<T?>().fromJson),
+      status: json['status'] as int,
+      message: json['message'] as String,
+      data: _$JsonConverterFromJson<Object, T>(
+          json['data'], Converter<T?>().fromJson),
     );
 
 Map<String, dynamic> _$ApiResponseToJson<T>(ApiResponse<T> instance) =>
     <String, dynamic>{
       'status': instance.status,
-      'articles': _$JsonConverterToJson<Object, T>(
-          instance.articles, Converter<T?>().toJson),
+      'message': instance.message,
+      'data': _$JsonConverterToJson<Object, T>(
+          instance.data, Converter<T?>().toJson),
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(
@@ -43,17 +47,21 @@ Json? _$JsonConverterToJson<Json, Value>(
 
 ApiResponseList<T> _$ApiResponseListFromJson<T>(Map<String, dynamic> json) =>
     ApiResponseList<T>(
-      status: json['status'] as String,
-      articles: (json['articles'] as List<dynamic>?)
+      status: json['status'] as int,
+      message: json['message'] as String,
+      data: (json['data'] as List<dynamic>?)
               ?.map((e) => Converter<T>().fromJson(e as Object))
               .toList() ??
           const [],
-      totalData: json['totalResults'] as int? ?? 8,
+      totalData: json['total_data'] as int? ?? 10,
+      totalPage: json['total_page'] as int? ?? 1,
     );
 
 Map<String, dynamic> _$ApiResponseListToJson<T>(ApiResponseList<T> instance) =>
     <String, dynamic>{
       'status': instance.status,
-      'articles': instance.articles.map(Converter<T>().toJson).toList(),
-      'totalResults': instance.totalData,
+      'message': instance.message,
+      'data': instance.data.map(Converter<T>().toJson).toList(),
+      'total_data': instance.totalData,
+      'total_page': instance.totalPage,
     };

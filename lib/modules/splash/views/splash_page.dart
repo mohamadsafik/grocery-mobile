@@ -20,7 +20,7 @@ class SplashPage extends StatelessWidget {
               SizedBox(
                 width: width,
                 height: baseHeight,
-                child: Resources.images.elkopra.image(height: 100),
+                child: Resources.images.elkopra.image(height: 100, width: 100),
               ),
               Column(
                 children: [
@@ -35,7 +35,7 @@ class SplashPage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(width * 0.07),
                     child: Text(
-                      'Powered by Spasial.com',
+                      'Powered by Grocery.com',
                       style: AppFont.largeBold(context),
                       textAlign: TextAlign.center,
                     ),

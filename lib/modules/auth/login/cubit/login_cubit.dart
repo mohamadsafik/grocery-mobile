@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_cubit/data/services.dart';
 import 'package:flutter_cubit/engine/engine.dart';
 import 'package:flutter_cubit/routes/routes.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -26,9 +27,19 @@ class LoginCubit extends BaseCubit<LoginState> {
 
   void doLogin(GlobalKey<FormBuilderState> formKey) async {
     loadingState();
-    Sessions.setUserData(
-            jsonEncode({"email": formKey.currentState!.value["email"]}))
+    final data = await ApiService.login(context,
+        email: formKey.currentState!.value["email"],
+        password: formKey.currentState!.value["password"]);
+        if(data.isSuccess){
+  Sessions.setUserData(
+            jsonEncode(data.data))
         .then((value) => context.goNamed(RouteNames.root));
+        }else{
+            emit(state.copyWith(status: DataStateStatus.success));
+          showError(data.message);
+        }
+  
     finishRefresh(state.status);
+    
   }
 }
